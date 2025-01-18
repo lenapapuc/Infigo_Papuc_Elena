@@ -29,6 +29,15 @@ public static class Configurator
         {
             //todo read via reflection
             cfg.AddProfile<TopicProfile>();
+           
         }, typeof(Program).Assembly);
+
+        services.AddAutoMapper(cfg =>
+        {
+            //todo read via reflection
+     
+            cfg.AddProfile<CommentaryProfile>();
+        }, typeof(Program).Assembly);
+
     }
 }

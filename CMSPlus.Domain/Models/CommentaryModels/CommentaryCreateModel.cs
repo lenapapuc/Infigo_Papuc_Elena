@@ -12,6 +12,7 @@ namespace CMSPlus.Domain.Models.CommentaryModels
          public string Name { get; set; }
          public string LastName { get; set; }
          public string Body { get; set; }
+         public int TopicId { get; set; }
       
     }
 }

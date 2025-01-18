@@ -8,7 +8,7 @@ namespace CMSPlus.Domain.Entities
 {
     public class CommentaryEntity : BaseEntity
     {
-        public string Body { get; set; } = null!;
+        public string Body { get; set; }
         public string Name { get; set; } = null!;
         public string LastName { get; set; } = null!;
         public int TopicId { get; set; }
