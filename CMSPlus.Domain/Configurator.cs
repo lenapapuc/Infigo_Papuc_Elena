@@ -14,6 +14,7 @@ public static class Configurator
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(connectionString));
         services.AddScoped<ITopicRepository, TopicRepository>();
+        services.AddScoped<ICommentaryRepository, CommentaryRepository>();
     }
 
     public static void AddMigrations(this IServiceCollection services, string? connectionString)

@@ -14,6 +14,10 @@
 
     <ItemGroup>
       <None Remove="Migrations\V1_1_1__Create_Topic_Table.sql" />
+      <None Remove="Migrations\V1_1_2__Create_Comments_Table.sql" />
+      <Content Include="Migrations\V1_1_2__Create_Comments_Table.sql">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
       <Content Include="Migrations\V1_1_1__Create_Topic_Table.sql">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
