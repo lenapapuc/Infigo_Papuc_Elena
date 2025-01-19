@@ -5,6 +5,8 @@ using CMSPlus.Domain.Models.TopicModels;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using CMSPlus.Domain.Models;
+using CMSPlus.Services.Services;
 
 namespace CMSPlus.Presentation.Controllers;
 
@@ -14,13 +16,15 @@ public class TopicController : Controller
     private readonly IMapper _mapper;
     private readonly IValidator<TopicEditModel> _editModelValidator;
     private readonly IValidator<TopicCreateModel> _createModelValidator;
+    private readonly ICommentaryService _commentaryService;
 
-    public TopicController(ITopicService topicService,IMapper mapper, IValidator<TopicEditModel> editModelValidator, IValidator<TopicCreateModel> createModelValidator)
+    public TopicController(ITopicService topicService,IMapper mapper, IValidator<TopicEditModel> editModelValidator, IValidator<TopicCreateModel> createModelValidator, ICommentaryService commentaryService)
     {
         _topicService = topicService;
         _mapper = mapper;
         _editModelValidator = editModelValidator;
         _createModelValidator = createModelValidator;
+        _commentaryService = commentaryService;
     }
     
     public async Task<IActionResult> Index()
@@ -107,5 +111,22 @@ public class TopicController : Controller
         }
         var topicDto = _mapper.Map<TopicEntity, TopicDetailsModel>(topic);
         return View(topicDto);
+    }
+
+    public async Task<IActionResult> TopicWithCommentaries(string systemName)
+    {
+        var topic = await _topicService.GetBySystemName(systemName);
+        if (topic == null)
+        {
+            throw new ArgumentException($"Item with system name: {systemName} wasn't found!");
+        }
+        var topicDetails = _mapper.Map<TopicEntity, TopicDetailsModel>(topic);
+        var commentaries = await _commentaryService.GetByTopicId(topic.Id);
+        var topicWithCommentaries = new TopicWithCommentaries
+        {
+            TopicDetails = topicDetails,
+            Commentaries = commentaries
+        };
+        return View(topicWithCommentaries);
     }
 }

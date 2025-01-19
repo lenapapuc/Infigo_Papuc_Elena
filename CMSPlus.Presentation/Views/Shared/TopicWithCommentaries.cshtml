@@ -1,0 +1,49 @@
+﻿@model CMSPlus.Domain.Models.TopicWithCommentaries
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "_Layout";
+}
+<div class="container m-3">
+    <h1 class="row-12 text-black">@Model.TopicDetails.Title</h1>
+    <div class="row">
+        <p class="col-6 text-start text-black-50">Updated: @Model.TopicDetails.UpdatedOnUtc</p>
+        <p class="col-6 text-end text-black-50">Created: @Model.TopicDetails.CreatedOnUtc</p>
+    </div>
+    <p class="row-12 text-black">@Html.Raw(Model.TopicDetails.Body)</p>
+    <div class="row">
+        <p class="col-12 text-black-50 text-end">System name: @Model.TopicDetails.SystemName</p>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary text-center px-2 mx-3" style="width: 30%" asp-controller="Commentary" asp-action="Create" asp-route-topicId="@Model.TopicDetails.Id">Add commentary</a>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <h2 class="col-6 text-black-50">Commentaries List</h2>
+           
+
+        </div>
+        <hr />
+        @foreach (var commentary in Model.Commentaries)
+        {
+            <div class="col mt-3 border rounded">
+                
+              
+                <div class="row mx-2">
+                    <p class="text-black-50 col-6">Created: @commentary.CreatedOnUtc</p>
+                 
+                </div>
+                <div class="row-12 mx-3">
+                    <p class="fs-6">@Html.Raw(commentary.Body)</p>
+                </div>
+
+                <div class="d-flex justify-content-end mx-2">
+                    <p class="text-black-50 mb-0 me-2">@commentary.LastName</p>
+                    <p class="text-black-50 mb-0">@commentary.Name</p>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>
+

@@ -13,5 +13,8 @@
     <p class="row-12 text-black">@Html.Raw(Model.Body)</p>
     <div class="row">
         <p class="col-12 text-black-50 text-end">System name: @Model.SystemName</p>
+        <div class="col-6 text-end">
+            <a class="btn btn-primary text-center px-2 mx-3" style="width: 10%" asp-controller="Commentary" asp-action="Create" asp-route-topicId="@Model.Id">Create</a>
+        </div>
     </div>
 </div>
