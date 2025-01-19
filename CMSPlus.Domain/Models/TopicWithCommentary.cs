@@ -1,8 +1,10 @@
-﻿namespace CMSPlus.Domain.Models
+﻿using CMSPlus.Domain.Entities;
+
+namespace CMSPlus.Domain.Models
 {
-    public class TopicWithCommentaryCreateModel
+    public class TopicWithCommentaries
     {
         public TopicModels.TopicDetailsModel TopicDetails { get; set; }
-        public CommentaryModels.CommentaryCreateModel CommentaryCreate { get; set; }
+        public IEnumerable<CommentaryEntity> Commentaries{ get; set; }
     }
 }

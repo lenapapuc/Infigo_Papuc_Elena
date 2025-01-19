@@ -15,21 +15,30 @@ namespace CMSPlus.Presentation.Controllers;
 public class CommentaryController : Controller
 {
     private readonly ICommentaryService _commentaryService;
+    private readonly ITopicService _topicService;
     private readonly IMapper _mapper;
 
 
-    public CommentaryController(ICommentaryService commentaryService, IMapper mapper)
+    public CommentaryController(ICommentaryService commentaryService, IMapper mapper, ITopicService topicService)
     {
         _commentaryService = commentaryService;
+        _topicService = topicService;
         _mapper = mapper;
-
+      
     }
 
-    public async Task<IActionResult> Index(int topicId)
+    public async Task<IActionResult> TopicWithCommentaries(int topicId)
     {
+        var topicEntity = await _topicService.GetById(topicId);
+        var topicDetails = _mapper.Map<TopicEntity, TopicDetailsModel>(topicEntity);
+
         var commentaries = await _commentaryService.GetByTopicId(topicId);
-        var commentaryToDisplay = _mapper.Map<IEnumerable<CommentaryEntity>, IEnumerable<CommentaryModel>>(commentaries);
-        return View(commentaryToDisplay);
+        var topicWithCommentaries = new TopicWithCommentaries
+        {
+            TopicDetails = topicDetails,
+            Commentaries = commentaries
+        };
+        return View(topicWithCommentaries);
     }
 
     [HttpGet]
@@ -53,7 +62,7 @@ public class CommentaryController : Controller
         }*/
         var commentaryEntity = _mapper.Map<CommentaryCreateModel, CommentaryEntity>(commentary);
         await _commentaryService.Create(commentaryEntity);
-        return RedirectToAction("Index", new { topicId = commentary.TopicId });
+        return RedirectToAction("TopicWithCommentaries", new { topicId = commentary.TopicId });
     }
 
 

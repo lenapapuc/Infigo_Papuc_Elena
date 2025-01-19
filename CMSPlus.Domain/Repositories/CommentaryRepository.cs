@@ -13,7 +13,7 @@ public class CommentaryRepository : Repository<CommentaryEntity>, ICommentaryRep
 
     public async Task<IEnumerable<CommentaryEntity>?> GetByTopicId(int topicId)
     {
-        var result = await _dbSet.Where(commentary => commentary.TopicId == topicId).ToListAsync();
+        var result = await _dbSet.Where(commentary => commentary.TopicId == topicId).OrderByDescending(commentary => commentary.CreatedOnUtc).ToListAsync();
         return result;
     }
 }
