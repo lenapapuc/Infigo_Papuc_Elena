@@ -17,16 +17,19 @@ public class CommentaryController : Controller
     private readonly ICommentaryService _commentaryService;
     private readonly ITopicService _topicService;
     private readonly IMapper _mapper;
+    private readonly IValidator<CommentaryCreateModel> _createModelValidator;
 
 
-    public CommentaryController(ICommentaryService commentaryService, IMapper mapper, ITopicService topicService)
+    public CommentaryController(ICommentaryService commentaryService, IMapper mapper, ITopicService topicService, IValidator<CommentaryCreateModel> createModelValidator )
     {
         _commentaryService = commentaryService;
         _topicService = topicService;
         _mapper = mapper;
+        _createModelValidator = createModelValidator;
       
     }
 
+    //Get both the topic and the commentaries belonging to it
     public async Task<IActionResult> TopicWithCommentaries(int topicId)
     {
         var topicEntity = await _topicService.GetById(topicId);
@@ -51,15 +54,16 @@ public class CommentaryController : Controller
         return View(model);
     }
 
+    //Create commentary, redirect to the topic's details page 
     [HttpPost]
     public async Task<IActionResult> Create(CommentaryCreateModel commentary)
     {
-        //var validationResult = await _createModelValidator.ValidateAsync(topic);
-        /*if (!validationResult.IsValid)
+        var validationResult = await _createModelValidator.ValidateAsync(commentary);
+        if (!validationResult.IsValid)
         {
             validationResult.AddToModelState(this.ModelState);
-            return View(topic);
-        }*/
+            return View(commentary);
+        }
         var commentaryEntity = _mapper.Map<CommentaryCreateModel, CommentaryEntity>(commentary);
         await _commentaryService.Create(commentaryEntity);
         return RedirectToAction("TopicWithCommentaries", new { topicId = commentary.TopicId });
