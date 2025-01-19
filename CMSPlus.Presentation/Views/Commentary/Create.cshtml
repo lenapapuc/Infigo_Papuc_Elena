@@ -1,0 +1,22 @@
+﻿@model CMSPlus.Domain.Models.CommentaryModels.CommentaryCreateModel
+
+@{
+    Layout = "_Layout";
+}
+<partial name="_RichTextEditorPartial" />
+<form method="post">
+    <p>@Html.ValidationSummary()</p>
+    <div class="form-group">
+        <input type="hidden" asp-for="TopicId" />
+        <label asp-for="LastName" class="m-1"></label>
+        <input asp-for="LastName" class="form-control"></input>
+        <label asp-for="Name" class="m-1"></label>
+        <input asp-for="Name" class="form-control"></input>
+        <label asp-for="Body" class="m-1"></label>
+        <input asp-for="Body" class="form-control"></input>
+       
+    </div>
+    <div class="row-12 m-3 text-center">
+        <button type="submit" class="btn btn-primary" style="width: 10%">Submit</button>
+    </div>
+</form>
